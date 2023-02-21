@@ -40,7 +40,7 @@ class Sprite {
 }
 
 class Fighter extends Sprite {
-    constructor ({position, velocity,  color, offset, imageSrc, scale=1, framesMax=1, sprites}) {
+    constructor ({position, velocity,  color, offset, imageSrc, scale=1, framesMax=1, sprites, attackBox = {offset: {}, width: undefined, height: undefined}}) {
         super({
             position,
             imageSrc,
@@ -59,9 +59,9 @@ class Fighter extends Sprite {
                 x: this.position.x,
                 y : this.position.y
             },
-            offset,
-            width: 100,
-            height: 50
+            offset: attackBox.offset,
+            width: attackBox.width,
+            height: attackBox.height
         }
         this.lastKey
         this.isAttacking
@@ -77,23 +77,14 @@ class Fighter extends Sprite {
         }
     }
 
-    // draw() {
-    //     c.fillStyle = this.color
-    //     c.fillRect(this.position.x, this.position.y, 50, 150)
-
-    //     //attackBox
-    //     if (this.isAttacking) { 
-    //         c.fillStyle = 'green'
-    //         c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
-    //     }
-    // }
-
     update() {
         this.draw()
         this.animateFrames()
 
         this.attackBox.position.x = this.position.x + this.attackBox.offset.x
         this.attackBox.position.y = this.position.y
+
+        c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
 
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
